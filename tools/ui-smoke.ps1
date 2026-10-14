@@ -29,6 +29,8 @@ public static class SmokeWin {
     [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);
     [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
     [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
+    [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr h, IntPtr hdc, uint flags);
+    [DllImport("dwmapi.dll")] public static extern int DwmGetWindowAttribute(IntPtr h, int attr, out RECT r, int size);
 }
 "@
 [SmokeWin]::SetProcessDPIAware() | Out-Null
@@ -41,14 +43,22 @@ function Save-Screenshot($element, [string]$name) {
     $handle = [IntPtr]$element.Current.NativeWindowHandle
     [SmokeWin]::SetForegroundWindow($handle) | Out-Null
     Start-Sleep -Milliseconds 1200
+    # Окно рисуется само в себя (PrintWindow), поэтому на снимок не попадают другие окна.
+    # Рамка без невидимых краев и тени — DWMWA_EXTENDED_FRAME_BOUNDS.
     $r = New-Object SmokeWin+RECT
     [SmokeWin]::GetWindowRect($handle, [ref]$r) | Out-Null
-    $bitmap = New-Object System.Drawing.Bitmap ($r.Right - $r.Left), ($r.Bottom - $r.Top)
-    $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
-    $graphics.CopyFromScreen($r.Left, $r.Top, 0, 0, $bitmap.Size)
+    $frame = New-Object SmokeWin+RECT
+    [SmokeWin]::DwmGetWindowAttribute($handle, 9, [ref]$frame, 16) | Out-Null
+    $full = New-Object System.Drawing.Bitmap ($r.Right - $r.Left), ($r.Bottom - $r.Top)
+    $graphics = [System.Drawing.Graphics]::FromImage($full)
+    $hdc = $graphics.GetHdc()
+    [SmokeWin]::PrintWindow($handle, $hdc, 2) | Out-Null
+    $graphics.ReleaseHdc($hdc); $graphics.Dispose()
+    $crop = New-Object System.Drawing.Rectangle ($frame.Left - $r.Left), ($frame.Top - $r.Top), ($frame.Right - $frame.Left), ($frame.Bottom - $frame.Top)
+    $bitmap = $full.Clone($crop, $full.PixelFormat)
     $path = Join-Path $OutDir "$name.png"
     $bitmap.Save($path, [System.Drawing.Imaging.ImageFormat]::Png)
-    $graphics.Dispose(); $bitmap.Dispose()
+    $full.Dispose(); $bitmap.Dispose()
     Write-Host "  скриншот: $path"
 }
 
