@@ -1,0 +1,22 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Цвета приложения. Все остальные ресурсы ссылаются только на эти кисти. -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#21A038" />
+    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#17802A" />
+    <SolidColorBrush x:Key="PrimaryLightBrush" Color="#E8F5EC" />
+    <SolidColorBrush x:Key="OnPrimaryBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="OnPrimaryMutedBrush" Color="#E3F4E8" />
+
+    <SolidColorBrush x:Key="WindowBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#F4F6F5" />
+    <SolidColorBrush x:Key="AlternateRowBrush" Color="#FAFBFA" />
+    <SolidColorBrush x:Key="LineBrush" Color="#D5DBD8" />
+
+    <SolidColorBrush x:Key="TextBrush" Color="#1F2A25" />
+    <SolidColorBrush x:Key="MutedBrush" Color="#5F6B66" />
+    <SolidColorBrush x:Key="DisabledTextBrush" Color="#9AA3A0" />
+
+    <SolidColorBrush x:Key="DangerBrush" Color="#C62828" />
+    <SolidColorBrush x:Key="ErrorBackgroundBrush" Color="#FDECEA" />
+    <SolidColorBrush x:Key="ErrorBorderBrush" Color="#F5C2BC" />
+</ResourceDictionary>
