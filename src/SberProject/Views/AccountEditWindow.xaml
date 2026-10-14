@@ -1,0 +1,102 @@
+<Window x:Class="SberProject.Views.AccountEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SberProject.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:AccountEditViewModel}"
+        Title="{Binding Title}"
+        Style="{StaticResource DialogWindow}"
+        Width="560" SizeToContent="Height" ResizeMode="NoResize"
+        FocusManager.FocusedElement="{Binding ElementName=LastNameBox}">
+    <StackPanel Margin="20,14,20,16">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Вкладчик" Style="{StaticResource SectionHeader}" />
+
+            <TextBlock Grid.Row="1" Text="Фамилия *" Style="{StaticResource FieldLabel}" />
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="LastNameBox" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Grid.Row="2" Text="Имя *" Style="{StaticResource FieldLabel}" />
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Grid.Row="3" Text="Отчество" Style="{StaticResource FieldLabel}" />
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding MiddleName, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Grid.Row="4" Text="Дата рождения *" Style="{StaticResource FieldLabel}" />
+            <DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding BirthDate}" />
+
+            <TextBlock Grid.Row="5" Grid.ColumnSpan="2" Text="Паспорт" Style="{StaticResource SectionHeader}" />
+
+            <TextBlock Grid.Row="6" Text="Серия и номер *" Style="{StaticResource FieldLabel}" />
+            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding PassportNumber, UpdateSourceTrigger=PropertyChanged}"
+                     CharacterCasing="Upper" MaxLength="9" ToolTip="Например, MP1234567" />
+
+            <TextBlock Grid.Row="7" Text="Личный номер *" Style="{StaticResource FieldLabel}" />
+            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding PersonalNumber, UpdateSourceTrigger=PropertyChanged}"
+                     CharacterCasing="Upper" MaxLength="14" ToolTip="Например, 3120385A001PB1" />
+
+            <TextBlock Grid.Row="8" Text="Кем выдан *" Style="{StaticResource FieldLabel}" />
+            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding IssuedBy, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Grid.Row="9" Text="Дата выдачи *" Style="{StaticResource FieldLabel}" />
+            <DatePicker Grid.Row="9" Grid.Column="1" SelectedDate="{Binding IssueDate}" />
+
+            <TextBlock Grid.Row="10" Text="Адрес регистрации" Style="{StaticResource FieldLabel}" />
+            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+
+        <Grid Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibility}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Вклад" Style="{StaticResource SectionHeader}" />
+
+            <TextBlock Grid.Row="1" Text="Категория вклада *" Style="{StaticResource FieldLabel}" />
+            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"
+                      SelectedItem="{Binding SelectedCategory}" />
+
+            <TextBlock Grid.Row="2" Text="Первоначальная сумма *" Style="{StaticResource FieldLabel}" />
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding InitialAmountText, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding MinAmountHint}" Foreground="{StaticResource MutedBrush}"
+                       TextWrapping="Wrap" Margin="0,-4,0,4" />
+        </Grid>
+
+        <Border Style="{StaticResource ErrorSummary}"
+                Visibility="{Binding HasErrorSummary, Converter={StaticResource BoolToVisibility}}">
+            <TextBlock Text="{Binding ErrorSummary}" Style="{StaticResource ErrorText}" />
+        </Border>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" IsDefault="True" Style="{StaticResource PrimaryButton}" />
+            <Button Content="Отмена" IsCancel="True" Margin="0,0,0,6" />
+        </StackPanel>
+    </StackPanel>
+</Window>
