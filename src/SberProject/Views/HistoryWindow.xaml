@@ -1,0 +1,58 @@
+<Window x:Class="SberProject.Views.HistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SberProject.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:HistoryViewModel}"
+        Title="{Binding Title}"
+        Style="{StaticResource DialogWindow}"
+        Width="720" Height="520" MinWidth="560" MinHeight="320">
+    <DockPanel Margin="16,12,16,12">
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+            <TextBlock Text="{Binding Account.Depositor.FullName}" FontSize="16" FontWeight="SemiBold" />
+            <TextBlock Foreground="{StaticResource MutedBrush}">
+                <Run Text="Счет" /> <Run Text="{Binding Account.Number, Mode=OneWay}" FontFamily="Consolas" />
+                <Run Text="·" /> <Run Text="{Binding Account.DepositType, Mode=OneWay, Converter={StaticResource EnumDescription}}" />
+                <Run Text="· открыт" /> <Run Text="{Binding Account.OpenDate, Mode=OneWay, StringFormat=dd.MM.yyyy}" />
+                <Run Text="·" /> <Run Text="{Binding Account.Status, Mode=OneWay, Converter={StaticResource EnumDescription}}" />
+            </TextBlock>
+        </StackPanel>
+
+        <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+            <Button DockPanel.Dock="Right" Content="Закрыть" IsCancel="True" IsDefault="True" Margin="0" />
+            <TextBlock VerticalAlignment="Center">
+                <Run Text="Поступило:" Foreground="{StaticResource MutedBrush}" />
+                <Run Text="{Binding TotalDeposited, Mode=OneWay, StringFormat=N2}" />
+                <Run Text="   Выдано:" Foreground="{StaticResource MutedBrush}" />
+                <Run Text="{Binding TotalWithdrawn, Mode=OneWay, StringFormat=N2}" />
+                <Run Text="   Проценты:" Foreground="{StaticResource MutedBrush}" />
+                <Run Text="{Binding TotalInterest, Mode=OneWay, StringFormat=N2}" />
+                <Run Text="   Остаток:" Foreground="{StaticResource MutedBrush}" />
+                <Run Text="{Binding Account.Balance, Mode=OneWay, StringFormat=N2}" FontWeight="SemiBold" />
+            </TextBlock>
+        </DockPanel>
+
+        <DataGrid ItemsSource="{Binding Rows}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата и время" Binding="{Binding Timestamp, StringFormat='dd.MM.yyyy HH:mm:ss'}" Width="150" />
+                <DataGridTextColumn Header="Операция" Binding="{Binding Type, Converter={StaticResource EnumDescription}}" Width="*" />
+                <DataGridTextColumn Header="Сумма" Binding="{Binding SignedAmount, StringFormat='+#,##0.00;−#,##0.00;0.00'}" Width="130">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource NumberCell}">
+                            <Setter Property="Foreground" Value="{StaticResource DangerBrush}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsIncome}" Value="True">
+                                    <Setter Property="Foreground" Value="{StaticResource PrimaryDarkBrush}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Остаток после операции" Binding="{Binding BalanceAfter, StringFormat=N2}" Width="170"
+                                    ElementStyle="{StaticResource NumberCell}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>
