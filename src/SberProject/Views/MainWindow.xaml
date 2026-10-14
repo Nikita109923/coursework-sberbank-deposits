@@ -76,11 +76,7 @@
         <!-- Строка состояния -->
         <Border DockPanel.Dock="Bottom" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0"
                 Background="{StaticResource SurfaceBrush}" Padding="12,5">
-            <DockPanel>
-                <TextBlock DockPanel.Dock="Right" Foreground="{StaticResource MutedBrush}"
-                           Text="{Binding DataDirectory, StringFormat='Данные: {0}'}" />
-                <TextBlock Text="{Binding Summary}" />
-            </DockPanel>
+            <TextBlock Text="{Binding Summary}" />
         </Border>
 
         <!-- Список вкладов -->

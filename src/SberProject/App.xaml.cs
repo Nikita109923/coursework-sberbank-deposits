@@ -62,10 +62,9 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton(paths);
         services.AddSingleton<IClock, SystemClock>();
         services.AddSingleton<IAuditLog>(sp =>
-            new FileAuditLog(paths.LogFile, Environment.UserName, sp.GetRequiredService<IClock>()));
+            new FileAuditLog(paths.LogFile, sp.GetRequiredService<IClock>()));
 
         services.AddSingleton(_ => new BankContext(
             new JsonRepository<DepositCategory>(paths.CategoriesFile),

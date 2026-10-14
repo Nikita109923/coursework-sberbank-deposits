@@ -11,7 +11,7 @@ public class ViewModelTests
 
     private MainViewModel CreateMain() => new(
         _bank.AccountService, _bank.CategoryService, new CsvExporter(), _bank.Log, _bank.Clock,
-        _dialogs, _bank.CreateViewModelFactory(), new AppPaths("data", "app.log"));
+        _dialogs, _bank.CreateViewModelFactory());
 
     private void OpenDemoAccounts()
     {

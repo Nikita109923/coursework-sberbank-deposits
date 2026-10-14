@@ -43,8 +43,7 @@ public sealed partial class MainViewModel : ObservableObject
         IAuditLog log,
         IClock clock,
         IDialogService dialogs,
-        IViewModelFactory viewModels,
-        AppPaths paths)
+        IViewModelFactory viewModels)
     {
         _accountService = accountService;
         _categoryService = categoryService;
@@ -53,7 +52,6 @@ public sealed partial class MainViewModel : ObservableObject
         _clock = clock;
         _dialogs = dialogs;
         _viewModels = viewModels;
-        DataDirectory = paths.DataDirectory;
         _lastAccrualDay = clock.Today;
 
         RefreshCategoryOptions();
@@ -63,7 +61,6 @@ public sealed partial class MainViewModel : ObservableObject
     public ObservableCollection<AccountRow> Accounts { get; } = [];
     public ObservableCollection<CategoryOption> CategoryOptions { get; } = [];
     public IReadOnlyList<AccountSortField> SortFields { get; } = Enum.GetValues<AccountSortField>();
-    public string DataDirectory { get; }
 
     partial void OnSearchTextChanged(string value) => Refresh();
     partial void OnSelectedCategoryOptionChanged(CategoryOption? value) => Refresh();

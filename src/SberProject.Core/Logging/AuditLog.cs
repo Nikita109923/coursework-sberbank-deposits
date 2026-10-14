@@ -13,13 +13,11 @@ public interface IAuditLog
 public sealed class FileAuditLog : IAuditLog
 {
     private readonly string _filePath;
-    private readonly string _userName;
     private readonly IClock _clock;
 
-    public FileAuditLog(string filePath, string userName, IClock clock)
+    public FileAuditLog(string filePath, IClock clock)
     {
         _filePath = filePath;
-        _userName = userName;
         _clock = clock;
     }
 
@@ -31,7 +29,7 @@ public sealed class FileAuditLog : IAuditLog
             if (!string.IsNullOrEmpty(directory))
                 Directory.CreateDirectory(directory);
 
-            var line = $"{_clock.Now:yyyy-MM-dd HH:mm:ss} [{_userName}] {message}{Environment.NewLine}";
+            var line = $"{_clock.Now:yyyy-MM-dd HH:mm:ss} {message}{Environment.NewLine}";
             File.AppendAllText(_filePath, line, Encoding.UTF8);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
