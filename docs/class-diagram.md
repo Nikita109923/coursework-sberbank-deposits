@@ -1,6 +1,6 @@
 # Диаграмма классов
 
-Диаграмма в формате Mermaid отображается на GitHub и в VS Code (расширение Markdown Preview Mermaid). Для пояснительной записки ее можно сохранить в PNG через [mermaid.live](https://mermaid.live).
+Диаграмма в формате Mermaid отображается на GitHub и в VS Code (расширение Markdown Preview Mermaid). Те же диаграммы в PNG: [class-diagram-core.png](class-diagram-core.png) (бизнес-логика) и [class-diagram-ui.png](class-diagram-ui.png) (интерфейс).
 
 Обозначения: `+` — public, `~` — internal (меняет состояние, доступно только сервисам ядра).
 
