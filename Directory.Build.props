@@ -1,0 +1,16 @@
+<Project>
+  <!-- Общие настройки для всех проектов решения. -->
+  <PropertyGroup>
+    <LangVersion>13.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Качество кода: встроенные анализаторы .NET и правила стиля из .editorconfig проверяются при сборке. -->
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <NeutralLanguage>ru-RU</NeutralLanguage>
+    <Product>Сбербанк. Сведения о вкладчиках банка</Product>
+  </PropertyGroup>
+</Project>
